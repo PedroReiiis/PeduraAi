@@ -478,6 +478,17 @@
       }
     }
     .print-only{ display:none; }
+
+    /* --- mobile table horizontal scroll (fix excluir column) --- */
+.table-wrap{
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+}
+.table-wrap table{
+  min-width: 720px; /* ajusta pra garantir espaço até a coluna Excluir */
+}
+
   </style>
 </head>
 
@@ -494,7 +505,7 @@
           </div>
           <span>Pendura AI • Login</span>
         </div>
-        <p class="small-muted" style="margin:0.45rem 0 0;">Admin / Senha: <b>admin</b> / <b>123456</b></p>
+        
       </div>
 
       <div class="login-body">
@@ -537,7 +548,7 @@
 
         <div>
           <h1 style="margin:0;font-size:1.25rem;letter-spacing:-0.02em;color:var(--ink);font-weight:950;">Pendura AI</h1>
-          <p class="small-muted" style="margin:0.2rem 0 0;font-size:0.95rem;color:var(--muted);">Controle fiado do mercadinho • rápido, simples e offline</p>
+          <p class="small-muted" style="margin:0.2rem 0 0;font-size:0.95rem;color:var(--muted);">Gestão Inteligente do Seu Negocio</p>
         </div>
       </div>
 
@@ -983,8 +994,9 @@
       metaHistorico.textContent = "Itens do histórico (mais recentes primeiro).";
 
       // Produto | Cliente | Valor | Data | Excluir  (com dia/mes)
-      conteudo.innerHTML = `
-        <table aria-label="Histórico de compras">
+          conteudo.innerHTML = `
+            <div class="table-wrap">
+              <table aria-label="Histórico de compras">
           <thead>
             <tr>
               <th style="width:34%;">Produto</th>
