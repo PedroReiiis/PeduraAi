@@ -1,0 +1,986 @@
+
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pendura AI</title>
+  <style>
+    :root{
+      --bg: #F5F7FB;
+      --text: #0B1220;
+      --muted: #5B667A;
+      --line: rgba(15, 23, 42, 0.10);
+
+      --ink: #0E1726;
+
+      --success: #1FBF7A;
+      --success-2: #16A56B;
+
+      --danger: #E5484D;
+      --danger-2: #C4373D;
+
+      --shadow: 0 10px 30px rgba(14, 23, 38, 0.08);
+      --shadow-2: 0 8px 20px rgba(14, 23, 38, 0.10);
+
+      --radius: 1rem;
+      --radius-sm: 0.75rem;
+
+      --focus: rgba(31, 75, 255, 0.22);
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body{
+      margin: 0;
+      font-family: var(--font);
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(31, 75, 255, 0.10), transparent 55%),
+                  radial-gradient(900px 500px at 90% 0%, rgba(31, 191, 122, 0.10), transparent 45%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.35;
+    }
+
+    .container{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 1rem;
+      padding-bottom: 2.5rem;
+    }
+
+    header{
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 0 1.25rem;
+    }
+
+    .brand{ display: flex; flex-direction: column; gap: 0.35rem; }
+
+    .logo{
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 0.9rem;
+      background: linear-gradient(135deg, rgba(31,75,255,1), rgba(31,191,122,1));
+      box-shadow: 0 10px 30px rgba(31,75,255,0.18);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .title{ display: flex; align-items: center; gap: 0.8rem; }
+    h1{ margin: 0; font-size: 1.15rem; letter-spacing: -0.02em; }
+    .subtitle{ margin: 0; color: var(--muted); font-size: 0.95rem; }
+
+    .pill{
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.55rem 0.75rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+    .pill .dot{
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 999px;
+      background: var(--success);
+      box-shadow: 0 0 0 4px rgba(31,191,122,0.15);
+    }
+
+    .grid{
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 860px){
+      .grid{
+        grid-template-columns: 1.05fr 0.95fr;
+        align-items: start;
+      }
+      header h1{ font-size: 1.25rem; }
+    }
+
+    .card{
+      background: rgba(255,255,255,0.85);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(6px);
+    }
+
+    .card .card-header{
+      padding: 1rem 1rem 0.75rem;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+      background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.65));
+    }
+    .card .card-header h2{
+      margin: 0;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+    }
+    .card .card-header p{
+      margin: 0.35rem 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .card .card-body{ padding: 1rem; }
+
+    .row{
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+
+    label{
+      display: block;
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .field{ flex: 1 1 220px; min-width: 160px; }
+
+    input[type="text"], input[type="number"], input[type="search"]{
+      width: 100%;
+      padding: 0.9rem 0.95rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(15, 23, 42, 0.14);
+      background: rgba(255,255,255,0.9);
+      color: var(--text);
+      outline: none;
+      transition: box-shadow 160ms ease, border-color 160ms ease, transform 160ms ease;
+      font-size: 1rem;
+    }
+
+    input[type="search"]{ padding-left: 2.55rem; }
+
+    input:focus{
+      border-color: rgba(31,75,255,0.45);
+      box-shadow: 0 0 0 5px var(--focus);
+    }
+
+    .btn{
+      border: 0;
+      border-radius: var(--radius-sm);
+      padding: 0.95rem 1rem;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 1rem;
+      transition: transform 120ms ease, box-shadow 160ms ease, opacity 160ms ease, background 160ms ease;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      min-height: 44px;
+      text-align: center;
+    }
+
+    .btn:active{ transform: translateY(1px) scale(0.99); }
+    .btn:disabled{ opacity: 0.6; cursor: not-allowed; }
+
+    .btn-primary{
+      background: rgba(14, 23, 38, 0.92);
+      color: #fff;
+      box-shadow: 0 12px 25px rgba(14, 23, 38, 0.20);
+    }
+    .btn-primary:hover{ background: rgba(14, 23, 38, 1); }
+
+    .btn-success{
+      background: linear-gradient(180deg, rgba(31,191,122,1), rgba(22,165,107,1));
+      color: #06351F;
+      box-shadow: 0 14px 28px rgba(31,191,122,0.22);
+    }
+    .btn-success:hover{ box-shadow: 0 18px 40px rgba(31,191,122,0.28); }
+
+    .btn-quit{
+      background: linear-gradient(180deg, rgba(31,191,122,1), rgba(22,165,107,1));
+      color: #06351F;
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 12px 25px rgba(31,191,122,0.20);
+      width: 100%;
+    }
+
+    .btn-danger{
+      background: linear-gradient(180deg, rgba(229,72,77,1), rgba(196,55,61,1));
+      color: #fff;
+      box-shadow: 0 12px 25px rgba(229,72,77,0.20);
+    }
+
+    .btn-row-center{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .search-wrap{
+      position: relative;
+      flex: 1 1 320px;
+      min-width: 200px;
+    }
+    .search-icon{
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(11,18,32,0.55);
+      pointer-events: none;
+      font-size: 1rem;
+    }
+
+    .results{ display: grid; gap: 0.8rem; }
+
+    .meta{ display: grid; grid-template-columns: 1fr; gap: 0.7rem; }
+
+    .total-box{
+      padding: 0.95rem;
+      border-radius: var(--radius);
+      border: 1px solid rgba(15,23,42,0.10);
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.70));
+    }
+    .total-row{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .total-label{ color: var(--muted); font-size: 0.95rem; font-weight: 800; }
+    .total-value{
+      font-size: 1.25rem;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+
+    .list{
+      border-radius: var(--radius);
+      border: 1px solid rgba(15,23,42,0.10);
+      overflow: hidden;
+      background: rgba(255,255,255,0.85);
+    }
+
+    .list-header{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid rgba(15,23,42,0.08);
+      background: rgba(255,255,255,0.75);
+    }
+    .list-header h3{ margin: 0; font-size: 1rem; letter-spacing: -0.02em; }
+
+    table{
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    th, td{
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid rgba(15,23,42,0.07);
+      text-align: left;
+      vertical-align: top;
+    }
+    th{
+      color: var(--muted);
+      font-weight: 800;
+      background: rgba(15,23,42,0.02);
+    }
+    tr:last-child td{ border-bottom: 0; }
+    .td-right{ text-align: right; }
+
+    .small-muted{ color: var(--muted); font-size: 0.9rem; margin: 0; }
+
+    .badge{
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      border-radius: 999px;
+      padding: 0.35rem 0.6rem;
+      background: rgba(31,191,122,0.12);
+      color: #0E5132;
+      border: 1px solid rgba(31,191,122,0.22);
+      font-weight: 900;
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+
+    .empty{
+      padding: 1.05rem;
+      color: var(--muted);
+      display: grid;
+      gap: 0.45rem;
+    }
+    .empty b{ color: var(--ink); }
+
+    /* Toast */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 1.05rem;
+      transform: translateX(-50%);
+      background: rgba(14, 23, 38, 0.92);
+      color: #fff;
+      padding: 0.85rem 1rem;
+      border-radius: 999px;
+      box-shadow: var(--shadow-2);
+      display: none;
+      gap: 0.6rem;
+      align-items: center;
+      max-width: calc(100vw - 2rem);
+      z-index: 50;
+      font-weight: 900;
+    }
+    .toast.show{ display: inline-flex; }
+    .toast .t-dot{
+      width: 0.6rem; height: 0.6rem; border-radius: 999px;
+      background: var(--success);
+      box-shadow: 0 0 0 4px rgba(31,191,122,0.18);
+    }
+
+    /* Balão */
+    .backdrop{
+      position: fixed;
+      inset: 0;
+      background: rgba(14, 23, 38, 0.15);
+      z-index: 60;
+      display: none;
+    }
+    .backdrop.show{ display: block; }
+
+
+    .balloon{
+      position: fixed;
+      transform: translate(0%, -70%);
+      z-index: 70;
+      width: min(92vw, 420px);
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(15,23,42,0.14);
+      border-radius: 1rem;
+      box-shadow: 0 20px 60px rgba(14, 23, 38, 0.18);
+      backdrop-filter: blur(8px);
+      display: none;
+      overflow: hidden;
+      
+    }
+    .balloon.show{ display: block; }
+
+    .balloon::before{
+      content: "";
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background: rgba(255,255,255,0.92);
+      border-left: 1px solid rgba(15,23,42,0.14);
+      border-top: 1px solid rgba(15,23,42,0.14);
+      transform: rotate(45deg);
+      top: -7px;
+      left: var(--arrow-x, 50%);
+    }
+
+    .balloon-header{
+      padding: 0.9rem 1rem 0.2rem;
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.75));
+      
+    }
+    .balloon-title{
+      margin: 0;
+      font-weight: 950;
+      letter-spacing: -0.02em;
+      font-size: 1.02rem;
+      color: var(--ink);
+    }
+    .balloon-body{
+      padding: 0.6rem 1rem 0.95rem;
+      color: var(--muted);
+      font-weight: 650;
+      font-size: 0.95rem;
+      white-space: pre-line;
+    
+    }
+
+    .balloon-actions{
+      padding: 0 1rem 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+      position: relative;
+      
+    }
+
+    .btn-danger-small{
+      font-size: 0.95rem;
+      padding: 0.85rem 0.9rem;
+      min-height: 40px;
+      width: auto; /* menor por risco alto */
+      border-radius: 0.7rem;
+      display: inline-flex;
+      
+    }
+
+    .sr-only{
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0);
+      white-space: nowrap; border: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="title">
+          <div class="logo" aria-hidden="true">PA</div>
+          <div>
+            <h1>Pendura AI</h1>
+            <p class="subtitle">Controle fiado do mercadinho • rápido, simples e offline</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pill" title="Os dados ficam no seu navegador (localStorage)">
+        <span class="dot" aria-hidden="true"></span>
+        <span>Dados locais</span>
+      </div>
+    </header>
+
+    <main class="grid">
+      <section class="card" aria-labelledby="cadastro-titulo">
+        <div class="card-header">
+          <h2 id="cadastro-titulo">Novo registro de fiado</h2>
+          <p>Cadastre cliente, produto e valor. O histórico aparece na busca.</p>
+        </div>
+
+        <div class="card-body">
+          <form id="formAdd" autocomplete="off">
+            <div class="row">
+              <div class="field">
+                <label for="nomeCliente">Nome do Cliente</label>
+                <input id="nomeCliente" type="text" inputmode="text" placeholder="Ex: João da Silva" required />
+              </div>
+
+              <div class="field">
+                <label for="produto">Produto</label>
+                <input id="produto" type="text" inputmode="text" placeholder="Ex: Arroz 5kg" required />
+              </div>
+
+              <div class="field" style="flex: 0 1 180px; min-width: 150px;">
+                <label for="valor">Valor do Produto (R$)</label>
+                <input id="valor" type="number" step="0.01" inputmode="decimal" placeholder="Ex: 35.90" required />
+              </div>
+            </div>
+
+            <div class="btn-row-center" style="margin-top: 0.95rem;">
+              <button class="btn btn-success" type="submit" aria-label="Adicionar registro">
+                <span aria-hidden="true">＋</span>
+                Adicionar
+              </button>
+
+              <button class="btn btn-primary" id="btnExport" type="button" title="Exporta todos os registros em JSON">
+                Exportar
+              </button>
+            </div>
+
+            <div class="hint">
+              Dica: na busca, digite o nome do cliente. Você pode quitar a conta com 1 toque.
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="consulta-titulo">
+        <div class="card-header">
+          <h2 id="consulta-titulo">Consulta e Quitar Conta</h2>
+          <p>Veja os produtos comprados e o total da dívida do cliente.</p>
+        </div>
+
+        <div class="card-body">
+          <div class="results">
+            <div class="row" style="align-items: center;">
+              <div class="search-wrap">
+                <span class="search-icon" aria-hidden="true">🔎</span>
+                <label class="sr-only" for="busca">Buscar cliente</label>
+                <input id="busca" type="search" placeholder="Buscar por nome do cliente..." />
+              </div>
+
+              <div class="btn-row-center" style="gap: 0.75rem; justify-content: flex-start; flex: 0 0 auto;">
+                <button class="btn btn-primary" type="button" id="btnBuscar">
+                  Buscar
+                </button>
+              </div>
+            </div>
+
+            <div class="meta">
+              <div class="total-box">
+                <div class="total-row">
+                  <div>
+                    <div class="total-label">Total da dívida</div>
+                    <div class="small-muted" id="clienteAtivoTexto">Nenhum cliente selecionado</div>
+                  </div>
+                  <div class="total-value" id="totalDivida">R$ 0,00</div>
+                </div>
+
+                <div style="margin-top: 0.9rem;">
+                  <div class="btn-row-center">
+                    <button class="btn btn-quit" id="btnQuitar" type="button" disabled>
+                      Quitar Conta
+                    </button>
+                  </div>
+                  <div class="small-muted" style="margin-top: 0.5rem; text-align:center;">
+                    Remove os registros do cliente (zera a dívida).
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="list" aria-live="polite">
+              <div class="list-header">
+                <div>
+                  <h3>Histórico</h3>
+                  <p class="small-muted" id="metaHistorico">Busque um cliente para ver os itens.</p>
+                </div>
+                <div class="badge" id="qtdItensBadge" style="display:none;">0 itens</div>
+              </div>
+
+              <div id="conteudoLista">
+                <div class="empty">
+                  <b>Pronto para consultar.</b>
+                  <span>Digite o nome e toque em <b>Buscar</b>.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="btn-row-center" style="margin-top: 0.25rem;">
+              <button class="btn btn-danger btn-danger-small" type="button" id="btnLimparTodos">
+                Apagar tudo
+              </button>
+            </div>
+            <div class="small-muted" style="margin-top: -0.1rem; text-align:center;">
+              Atenção: esta ação remove os dados de todos os clientes deste navegador.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <span class="t-dot" aria-hidden="true"></span>
+    <span id="toastText">OK</span>
+  </div>
+
+  <div class="backdrop" id="balloonBackdrop" aria-hidden="true"></div>
+
+  <div class="balloon" id="confirmBalloon" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <div class="balloon-header">
+      <p class="balloon-title" id="confirmTitle">Confirmar</p>
+    </div>
+    <div class="balloon-body" id="confirmBody">Mensagem</div>
+    <div class="balloon-actions">
+      <button class="btn btn-primary" type="button" id="confirmCancelBtn" style="padding: 0.85rem 0.95rem;">
+        Cancelar
+      </button>
+      <button class="btn" type="button" id="confirmOkBtn" style="padding: 0.85rem 0.95rem;">
+        Confirmar
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "pendura_ai_v1_registros";
+    let registros = [];
+    const $ = (sel) => document.querySelector(sel);
+
+    function toast(msg){
+      const el = $("#toast");
+      $("#toastText").textContent = msg;
+      el.classList.add("show");
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => el.classList.remove("show"), 2200);
+    }
+
+    function formatBRL(value){
+      return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(value);
+    }
+
+    // ---- Normalização robusta (CORREÇÃO DA BUSCA) ----
+    function sanitizeNome(s){
+      return String(s ?? "")
+        .trim()
+        .replace(/\s+/g, " ")
+        .replace(/[\u200B-\u200D\uFEFF]/g, ""); // remove ZW chars
+    }
+
+    function normalizeForSearch(s){
+      // remove acentos e deixa minúsculo para comparação consistente
+      const base = sanitizeNome(s);
+      return base
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
+    }
+
+    function parseValor(raw){
+      const n = Number(raw);
+      if (!Number.isFinite(n)) return null;
+      return Math.round(n * 100) / 100;
+    }
+
+    function loadFromStorage(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw) return [];
+        const parsed = JSON.parse(raw);
+        if(!Array.isArray(parsed)) return [];
+        return parsed
+          .map(x => ({
+            id: String(x.id),
+            nomeCliente: sanitizeNome(x.nomeCliente),
+            produto: String(x.produto ?? "").trim(),
+            valor: Number(x.valor),
+            criadoEm: Number(x.criadoEm ?? Date.now())
+          }))
+          .filter(x => x.nomeCliente && x.produto && Number.isFinite(x.valor));
+      }catch{
+        return [];
+      }
+    }
+
+    function saveToStorage(){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(registros));
+    }
+
+    function matchesCliente(query, nomeCliente){
+      const q = normalizeForSearch(query);
+      const n = normalizeForSearch(nomeCliente);
+      return q.length > 0 && n.includes(q);
+    }
+
+    let clienteSelecionado = "";
+
+    function setClienteAtivo(nome){
+      $("#clienteAtivoTexto").textContent = nome ? `Cliente: ${nome}` : "Nenhum cliente selecionado";
+    }
+
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function renderListForCliente(nomeClienteBuscado){
+      const conteudo = $("#conteudoLista");
+      const metaHistorico = $("#metaHistorico");
+      const qtdBadge = $("#qtdItensBadge");
+
+      const nomeBuscadoSan = sanitizeNome(nomeClienteBuscado);
+      const nomeNorm = normalizeForSearch(nomeBuscadoSan);
+      clienteSelecionado = nomeNorm; // guarda normalizado
+
+      const itens = registros
+        .filter(r => matchesCliente(nomeNorm, r.nomeCliente))
+        .sort((a,b) => b.criadoEm - a.criadoEm);
+
+      if(!nomeNorm){
+        $("#totalDivida").textContent = formatBRL(0);
+        qtdBadge.style.display = "none";
+        metaHistorico.textContent = "Busque um cliente para ver os itens.";
+        conteudo.innerHTML = `
+          <div class="empty">
+            <b>Pronto para consultar.</b>
+            <span>Digite o nome e toque em <b>Buscar</b>.</span>
+          </div>
+        `;
+        $("#btnQuitar").disabled = true;
+        setClienteAtivo("");
+        return;
+      }
+
+      const total = itens.reduce((acc, it) => acc + it.valor, 0);
+      $("#totalDivida").textContent = formatBRL(total);
+
+      if(itens.length === 0){
+        qtdBadge.style.display = "none";
+        $("#btnQuitar").disabled = true;
+        metaHistorico.textContent = "Nenhum registro encontrado para este cliente.";
+        conteudo.innerHTML = `
+          <div class="empty">
+            <b>Sem débitos.</b>
+            <span>Se quiser, cadastre um novo fiado no painel ao lado.</span>
+          </div>
+        `;
+        // mostra o texto como digitou (sanitizado)
+        setClienteAtivo(nomeBuscadoSan);
+        return;
+      }
+
+      $("#btnQuitar").disabled = false;
+      qtdBadge.style.display = "inline-flex";
+      qtdBadge.textContent = `${itens.length} ${itens.length === 1 ? "item" : "itens"}`;
+
+      metaHistorico.textContent = "Itens do histórico (mais recentes primeiro).";
+
+      conteudo.innerHTML = `
+        <table aria-label="Histórico de compras">
+          <thead>
+            <tr>
+              <th style="width:40%;">Produto</th>
+              <th>Cliente</th>
+              <th class="td-right" style="width:25%;">Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${itens.map(it => `
+              <tr>
+                <td>${escapeHtml(it.produto)}</td>
+                <td>${escapeHtml(it.nomeCliente)}</td>
+                <td class="td-right">${formatBRL(it.valor)}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+
+      setClienteAtivo(nomeBuscadoSan);
+    }
+
+    // ---- Balão de confirmação ----
+    const backdrop = $("#balloonBackdrop");
+    const balloon = $("#confirmBalloon");
+    const confirmCancelBtn = $("#confirmCancelBtn");
+    const confirmOkBtn = $("#confirmOkBtn");
+
+    function closeBalloon(){
+        
+      balloon.classList.remove("show");
+      backdrop.classList.remove("show");
+    }
+
+    function openBalloon({ anchorEl, title, body, okText, okVariant, onOk }){
+      $("#confirmTitle").textContent = title;
+      $("#confirmBody").textContent = body;
+
+      confirmOkBtn.textContent = okText;
+
+      confirmOkBtn.className = "btn";
+      if(okVariant === "success") confirmOkBtn.classList.add("btn-success");
+      else if(okVariant === "danger") confirmOkBtn.classList.add("btn-danger");
+      else confirmOkBtn.classList.add("btn-primary");
+
+      // posiciona perto do botão (simples e seguro)
+      const rect = anchorEl.getBoundingClientRect();
+      const balloonWidth = Math.min(window.innerWidth * 0.92, 420);
+
+      const desiredLeft = (rect.left + rect.width/2) - balloonWidth/2;
+      const clampedLeft = Math.max(12, Math.min(desiredLeft, window.innerWidth - balloonWidth - 12));
+
+      balloon.style.left = clampedLeft + "px";
+     const balloonHeight = balloon.offsetHeight;
+const espacoAbaixo = window.innerHeight - rect.bottom;
+const espacoAcima = rect.top;
+
+let top;
+
+if (
+  espacoAbaixo < balloonHeight + 20 &&
+  espacoAcima > espacoAbaixo
+) {
+  // Mostra o balão acima do botão
+  top = rect.top - balloonHeight - 10;
+} else {
+  // Mostra abaixo do botão
+  top = rect.bottom + 10;
+}
+
+// Impede que o balão saia dos limites da tela
+top = Math.max(
+  12,
+  Math.min(top, window.innerHeight - balloonHeight - 12)
+);
+
+balloon.style.top = top + "px";
+
+      balloon.style.setProperty("--arrow-x", "50%");
+
+      backdrop.onclick = () => closeBalloon();
+      confirmCancelBtn.onclick = () => closeBalloon();
+
+      confirmOkBtn.onclick = () => {
+        closeBalloon();
+        onOk && onOk();
+      };
+
+      closeBalloon();
+      backdrop.classList.add("show");
+      balloon.classList.add("show");
+
+      const escHandler = (e) => {
+        if(e.key === "Escape"){
+          closeBalloon();
+          window.removeEventListener("keydown", escHandler);
+        }
+      };
+      window.addEventListener("keydown", escHandler);
+    }
+
+    // ---- Events ----
+    $("#formAdd").addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const nomeCliente = sanitizeNome($("#nomeCliente").value);
+      const produto = sanitizeNome($("#produto").value).trim();
+      const valor = parseValor($("#valor").value);
+
+      if(!nomeCliente){ toast("Informe o nome do cliente."); $("#nomeCliente").focus(); return; }
+      if(!produto){ toast("Informe o produto."); $("#produto").focus(); return; }
+      if(valor === null || valor <= 0){ toast("Informe um valor válido (maior que zero)."); $("#valor").focus(); return; }
+
+      const novo = {
+        id: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + "_" + Math.random().toString(16).slice(2)),
+        nomeCliente,
+        produto,
+        valor,
+        criadoEm: Date.now()
+      };
+
+      registros.push(novo);
+      saveToStorage();
+
+      toast("Registro adicionado com sucesso ✅");
+
+      const buscaAtual = $("#busca").value;
+      if(sanitizeNome(buscaAtual).length > 0 && matchesCliente(buscaAtual, nomeCliente)){
+        renderListForCliente(buscaAtual);
+      }
+
+      $("#produto").value = "";
+      $("#valor").value = "";
+      $("#produto").focus();
+    });
+
+    $("#btnBuscar").addEventListener("click", () => {
+      renderListForCliente($("#busca").value);
+    });
+
+    $("#busca").addEventListener("keydown", (e) => {
+      if(e.key === "Enter"){
+        e.preventDefault();
+        $("#btnBuscar").click();
+      }
+    });
+
+    $("#btnQuitar").addEventListener("click", () => {
+      if(!clienteSelecionado) return;
+
+      const nomeNorm = clienteSelecionado;
+      const itensParaQuitar = registros.filter(r => matchesCliente(nomeNorm, r.nomeCliente));
+
+      if(itensParaQuitar.length === 0){
+        toast("Nada para quitar.");
+        $("#btnQuitar").disabled = true;
+        return;
+      }
+
+      const total = itensParaQuitar.reduce((acc, it) => acc + it.valor, 0);
+
+      openBalloon({
+        anchorEl: $("#btnQuitar"),
+        title: "Quitar Conta",
+        body:
+          `Confirmar quitação?\n\n` +
+          `Serão removidos ${itensParaQuitar.length} registro(s) no valor total de ${formatBRL(total)}.`,
+        okText: "Quitar",
+        okVariant: "success",
+        onOk: () => {
+          registros = registros.filter(r => !matchesCliente(nomeNorm, r.nomeCliente));
+          saveToStorage();
+          // re-render usa o que está no campo busca
+          renderListForCliente($("#busca").value);
+          toast("Conta quitada ✅");
+        }
+      });
+    });
+
+    $("#btnLimparTodos").addEventListener("click", () => {
+      const totalRegistros = registros.length;
+
+      if(totalRegistros === 0){
+        toast("Não há registros para apagar.");
+        return;
+      }
+
+      openBalloon({
+        anchorEl: $("#btnLimparTodos"),
+        title: "Apagar tudo (alto risco)",
+        body:
+          `Isso vai remover TODOS os registros salvos neste navegador.\n\n` +
+          `Total: ${totalRegistros} registro(s).`,
+        okText: "Apagar agora",
+        okVariant: "danger",
+        onOk: () => {
+          registros = [];
+          saveToStorage();
+          $("#busca").value = "";
+          renderListForCliente("");
+          toast("Todos os registros foram apagados.");
+        }
+      });
+    });
+
+    $("#btnExport").addEventListener("click", async () => {
+      const payload = {
+        versao: 1,
+        exportadoEm: new Date().toISOString(),
+        registros
+      };
+
+      const json = JSON.stringify(payload, null, 2);
+
+      try{
+        const blob = new Blob([json], { type: "application/json;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "pendura-ai-export.json";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        toast("Export gerado ✅");
+      }catch{
+        window.prompt("Copie o JSON exportado:", json);
+      }
+    });
+
+    // ---- Init ----
+    function init(){
+      registros = loadFromStorage();
+      renderListForCliente("");
+    }
+    init();
+  </script>
+</body>
+</html>
