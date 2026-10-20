@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="pt-BR">
 <head>
@@ -11,7 +10,6 @@
       --text: #0B1220;
       --muted: #5B667A;
       --line: rgba(15, 23, 42, 0.10);
-
       --ink: #0E1726;
 
       --success: #1FBF7A;
@@ -57,25 +55,6 @@
       padding: 1rem 0 1.25rem;
     }
 
-    .brand{ display: flex; flex-direction: column; gap: 0.35rem; }
-
-    .logo{
-      width: 2.4rem;
-      height: 2.4rem;
-      border-radius: 0.9rem;
-      background: linear-gradient(135deg, rgba(31,75,255,1), rgba(31,191,122,1));
-      box-shadow: 0 10px 30px rgba(31,75,255,0.18);
-      display: grid;
-      place-items: center;
-      color: #fff;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-    }
-
-    .title{ display: flex; align-items: center; gap: 0.8rem; }
-    h1{ margin: 0; font-size: 1.15rem; letter-spacing: -0.02em; }
-    .subtitle{ margin: 0; color: var(--muted); font-size: 0.95rem; }
-
     .pill{
       display: inline-flex;
       align-items: center;
@@ -106,7 +85,6 @@
         grid-template-columns: 1.05fr 0.95fr;
         align-items: start;
       }
-      header h1{ font-size: 1.25rem; }
     }
 
     .card{
@@ -133,7 +111,6 @@
       color: var(--muted);
       font-size: 0.92rem;
     }
-
     .card .card-body{ padding: 1rem; }
 
     .row{
@@ -152,7 +129,7 @@
 
     .field{ flex: 1 1 220px; min-width: 160px; }
 
-    input[type="text"], input[type="number"], input[type="search"]{
+    input[type="text"], input[type="number"], input[type="search"], input[type="password"]{
       width: 100%;
       padding: 0.9rem 0.95rem;
       border-radius: var(--radius-sm);
@@ -228,6 +205,25 @@
       flex-wrap: wrap;
     }
 
+    .btn-danger-small{
+      font-size: 0.95rem;
+      padding: 0.7rem 0.75rem;
+      min-height: 36px;
+      width: auto;
+      border-radius: 0.7rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      border: 0;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      background: linear-gradient(180deg, rgba(229,72,77,1), rgba(196,55,61,1));
+      color: #fff;
+      box-shadow: 0 10px 22px rgba(229,72,77,0.18);
+    }
+
     .search-wrap{
       position: relative;
       flex: 1 1 320px;
@@ -242,8 +238,6 @@
       pointer-events: none;
       font-size: 1rem;
     }
-
-    .results{ display: grid; gap: 0.8rem; }
 
     .meta{ display: grid; grid-template-columns: 1fr; gap: 0.7rem; }
 
@@ -364,10 +358,8 @@
     }
     .backdrop.show{ display: block; }
 
-
     .balloon{
       position: fixed;
-      transform: translate(0%, -70%);
       z-index: 70;
       width: min(92vw, 420px);
       background: rgba(255,255,255,0.92);
@@ -377,7 +369,6 @@
       backdrop-filter: blur(8px);
       display: none;
       overflow: hidden;
-      
     }
     .balloon.show{ display: block; }
 
@@ -397,7 +388,6 @@
     .balloon-header{
       padding: 0.9rem 1rem 0.2rem;
       background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.75));
-      
     }
     .balloon-title{
       margin: 0;
@@ -412,7 +402,6 @@
       font-weight: 650;
       font-size: 0.95rem;
       white-space: pre-line;
-    
     }
 
     .balloon-actions{
@@ -422,17 +411,6 @@
       gap: 0.7rem;
       flex-wrap: wrap;
       position: relative;
-      
-    }
-
-    .btn-danger-small{
-      font-size: 0.95rem;
-      padding: 0.85rem 0.9rem;
-      min-height: 40px;
-      width: auto; /* menor por risco alto */
-      border-radius: 0.7rem;
-      display: inline-flex;
-      
     }
 
     .sr-only{
@@ -442,19 +420,124 @@
       overflow: hidden; clip: rect(0,0,0,0);
       white-space: nowrap; border: 0;
     }
+
+    /* ===== LOGIN ===== */
+    .lock-screen{
+      min-height: 100vh;
+      display: none;
+      place-items: center;
+      padding: 1rem;
+    }
+    .lock-screen.show{ display: grid; }
+
+    .login-card{
+      width: min(480px, 95vw);
+      background: rgba(255,255,255,0.92);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(6px);
+    }
+    .login-header{
+      padding: 1.1rem 1.1rem 0.6rem;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.72));
+    }
+    .login-title{
+      margin: 0;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+      font-weight: 950;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .login-body{ padding: 1.05rem 1.1rem 1.1rem; }
+    .login-actions{ margin-top: 0.9rem; display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .login-error{
+      margin-top: 0.75rem;
+      color: var(--danger);
+      font-weight: 900;
+      font-size: 0.95rem;
+      display: none;
+    }
+
+    /* ===== PRINT ===== */
+    @media print{
+      body{ background:#fff !important; }
+      .no-print{ display:none !important; }
+      .print-only{ display:block !important; }
+      table{ font-size: 12pt; }
+      th, td{ padding: 8px 10px; }
+      .print-sheet{
+        border: 1px solid #ddd;
+        padding: 16px;
+        border-radius: 10px;
+      }
+    }
+    .print-only{ display:none; }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <header>
-      <div class="brand">
-        <div class="title">
-          <div class="logo" aria-hidden="true">PA</div>
-          <div>
-            <h1>Pendura AI</h1>
-            <p class="subtitle">Controle fiado do mercadinho • rápido, simples e offline</p>
+  <!-- LOGIN -->
+  <div class="lock-screen show" id="loginScreen">
+    <div class="login-card" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+      <div class="login-header">
+        <div class="login-title" id="loginTitle">
+          <div class="logo" aria-hidden="true" style="width:2.2rem;height:2.2rem;border-radius:0.9rem;
+            background:linear-gradient(135deg, rgba(31,75,255,1), rgba(31,191,122,1));
+            display:grid;place-items:center;color:#fff;font-weight:800;box-shadow:0 10px 30px rgba(31,75,255,0.18);">
+            PA
           </div>
+          <span>Pendura AI • Login</span>
+        </div>
+        <p class="small-muted" style="margin:0.45rem 0 0;">Admin / Senha: <b>admin</b> / <b>123456</b></p>
+      </div>
+
+      <div class="login-body">
+        <form id="loginForm" autocomplete="off">
+          <div class="field" style="margin-bottom: 0.75rem;">
+            <label for="loginUser">Login</label>
+            <input id="loginUser" type="text" inputmode="text" placeholder="Digite admin" required />
+          </div>
+
+          <div class="field" style="margin-bottom: 0.2rem;">
+            <label for="loginPass">Senha</label>
+            <input id="loginPass" type="password" inputmode="numeric" placeholder="Digite 123456" required />
+          </div>
+
+          <div class="login-actions">
+            <button class="btn btn-primary" type="submit">Entrar</button>
+          </div>
+          <div class="login-error" id="loginError">Login ou senha inválidos.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- APP -->
+  <div class="container no-print" id="appScreen" style="display:none;">
+    <header>
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <!-- LOGO (SVG) -->
+        <div aria-hidden="true" style="width:2.4rem;height:2.4rem;border-radius:0.9rem;
+          background:linear-gradient(135deg, rgba(31,75,255,1), rgba(31,191,122,1));
+          box-shadow:0 10px 30px rgba(31,75,255,0.18);
+          display:grid;place-items:center;">
+          <svg width="34" height="34" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M14 38c0-10 9-18 20-18s20 8 20 18" stroke="white" stroke-width="6" stroke-linecap="round"/>
+            <path d="M22 40c0-6 5-11 12-11s12 5 12 11" stroke="white" stroke-width="6" stroke-linecap="round" opacity="0.95"/>
+            <path d="M32 16v14" stroke="white" stroke-width="6" stroke-linecap="round"/>
+            <path d="M26 50h12" stroke="white" stroke-width="6" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <div>
+          <h1 style="margin:0;font-size:1.25rem;letter-spacing:-0.02em;color:var(--ink);font-weight:950;">Pendura AI</h1>
+          <p class="small-muted" style="margin:0.2rem 0 0;font-size:0.95rem;color:var(--muted);">Controle fiado do mercadinho • rápido, simples e offline</p>
         </div>
       </div>
 
@@ -496,13 +579,17 @@
                 Adicionar
               </button>
 
-              <button class="btn btn-primary" id="btnExport" type="button" title="Exporta todos os registros em JSON">
-                Exportar
+              <button class="btn btn-primary" id="btnExport" type="button" title="Exporta em PDF">
+                Exportar (PDF)
+              </button>
+
+              <button class="btn btn-danger" id="btnLogout" type="button" title="Sair">
+                Sair
               </button>
             </div>
 
-            <div class="hint">
-              Dica: na busca, digite o nome do cliente. Você pode quitar a conta com 1 toque.
+            <div class="small-muted" style="margin-top:0.85rem;">
+              Dica: na busca, digite o nome do cliente. Você pode excluir itens da lista.
             </div>
           </form>
         </div>
@@ -547,7 +634,7 @@
                     </button>
                   </div>
                   <div class="small-muted" style="margin-top: 0.5rem; text-align:center;">
-                    Remove os registros do cliente (zera a dívida).
+                    Remove todos os registros do cliente (zera a dívida).
                   </div>
                 </div>
               </div>
@@ -575,6 +662,7 @@
                 Apagar tudo
               </button>
             </div>
+
             <div class="small-muted" style="margin-top: -0.1rem; text-align:center;">
               Atenção: esta ação remove os dados de todos os clientes deste navegador.
             </div>
@@ -584,13 +672,14 @@
     </main>
   </div>
 
+  <!-- TOAST -->
   <div class="toast" id="toast" role="status" aria-live="polite">
     <span class="t-dot" aria-hidden="true"></span>
     <span id="toastText">OK</span>
   </div>
 
+  <!-- BALÃO -->
   <div class="backdrop" id="balloonBackdrop" aria-hidden="true"></div>
-
   <div class="balloon" id="confirmBalloon" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
     <div class="balloon-header">
       <p class="balloon-title" id="confirmTitle">Confirmar</p>
@@ -606,11 +695,85 @@
     </div>
   </div>
 
+  <!-- PRINT AREA -->
+  <div class="print-only" id="printArea">
+    <div class="print-sheet">
+      <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;">
+        <div>
+          <div style="font-weight:950;font-size:18pt;color:#0E1726;">
+            <span style="display:inline-flex;align-items:center;gap:10px;">
+              <span style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#1F4BFF,#1FBF7A);display:inline-grid;place-items:center;color:#fff;font-weight:900;">PA</span>
+              Pendura AI
+            </span>
+          </div>
+          <div style="color:#555;font-size:12pt;margin-top:4px;" id="printSubtitle">Controle</div>
+        </div>
+        <div style="text-align:right;color:#555;font-size:11pt;">
+          <div id="printDate"></div>
+        </div>
+      </div>
+
+      <div style="height:10px;"></div>
+
+      <div id="printClientLine" style="font-weight:850;color:#0E1726;font-size:12.5pt;"></div>
+      <div style="height:10px;"></div>
+      <div style="font-weight:950;color:#0E1726;font-size:14pt;margin-bottom:8px;" id="printTotalLine"></div>
+
+      <table style="width:100%;">
+        <thead>
+          <tr>
+            <th style="width:16%;">Data</th>
+            <th style="width:40%;">Produto</th>
+            <th>Cliente</th>
+            <th style="text-align:right;width:20%;">Valor</th>
+          </tr>
+        </thead>
+        <tbody id="printTbody"></tbody>
+      </table>
+    </div>
+  </div>
+
   <script>
     const STORAGE_KEY = "pendura_ai_v1_registros";
     let registros = [];
     const $ = (sel) => document.querySelector(sel);
 
+    // ===== LOGIN =====
+    const LOGIN_USER = "admin";
+    const LOGIN_PASS = "123456";
+    const SESSION_KEY = "pendura_ai_session_ok";
+
+    function setLoggedIn(ok){
+      if(ok) sessionStorage.setItem(SESSION_KEY, "1");
+      else sessionStorage.removeItem(SESSION_KEY);
+
+      $("#loginScreen").classList.toggle("show", !ok);
+      $("#appScreen").style.display = ok ? "" : "none";
+      $("#appScreen").classList.toggle("no-print", !ok);
+    }
+
+    function isLoggedIn(){
+      return sessionStorage.getItem(SESSION_KEY) === "1";
+    }
+
+    $("#loginForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const u = $("#loginUser").value.trim();
+      const p = $("#loginPass").value;
+
+      const ok = (u === LOGIN_USER && p === LOGIN_PASS);
+      if(!ok){
+        $("#loginError").style.display = "block";
+        return;
+      }
+      $("#loginError").style.display = "none";
+      setLoggedIn(true);
+      init();
+    });
+
+    $("#btnLogout").addEventListener("click", () => setLoggedIn(false));
+
+    // ===== helpers =====
     function toast(msg){
       const el = $("#toast");
       $("#toastText").textContent = msg;
@@ -623,16 +786,14 @@
       return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(value);
     }
 
-    // ---- Normalização robusta (CORREÇÃO DA BUSCA) ----
     function sanitizeNome(s){
       return String(s ?? "")
         .trim()
         .replace(/\s+/g, " ")
-        .replace(/[\u200B-\u200D\uFEFF]/g, ""); // remove ZW chars
+        .replace(/[\u200B-\u200D\uFEFF]/g, "");
     }
 
     function normalizeForSearch(s){
-      // remove acentos e deixa minúsculo para comparação consistente
       const base = sanitizeNome(s);
       return base
         .normalize("NFD")
@@ -644,6 +805,14 @@
       const n = Number(raw);
       if (!Number.isFinite(n)) return null;
       return Math.round(n * 100) / 100;
+    }
+
+    function formatDayMonthBR(ts){
+      const d = new Date(ts);
+      if(!Number.isFinite(d.getTime())) return "";
+      const dd = String(d.getDate()).padStart(2,"0");
+      const mm = String(d.getMonth()+1).padStart(2,"0");
+      return `${dd}/${mm}`; // sem ano
     }
 
     function loadFromStorage(){
@@ -676,12 +845,6 @@
       return q.length > 0 && n.includes(q);
     }
 
-    let clienteSelecionado = "";
-
-    function setClienteAtivo(nome){
-      $("#clienteAtivoTexto").textContent = nome ? `Cliente: ${nome}` : "Nenhum cliente selecionado";
-    }
-
     function escapeHtml(str){
       return String(str)
         .replaceAll("&","&amp;")
@@ -691,6 +854,82 @@
         .replaceAll("'","&#039;");
     }
 
+    // ===== estado da consulta =====
+    let clienteSelecionado = "";       // normalizado
+    let clienteSelecionadoTexto = "";  // sanitizado (para mostrar)
+    let ultimoBuscaCampoTexto = "";    // o que está no input busca
+
+    function setClienteAtivo(nome){
+      $("#clienteAtivoTexto").textContent = nome ? `Cliente: ${nome}` : "Nenhum cliente selecionado";
+    }
+
+    // ===== Balão =====
+    const backdrop = $("#balloonBackdrop");
+    const balloon = $("#confirmBalloon");
+    const confirmCancelBtn = $("#confirmCancelBtn");
+    const confirmOkBtn = $("#confirmOkBtn");
+
+    function closeBalloon(){
+      balloon.classList.remove("show");
+      backdrop.classList.remove("show");
+    }
+
+    function openBalloon({ anchorEl, title, body, okText, okVariant, onOk }){
+      $("#confirmTitle").textContent = title;
+      $("#confirmBody").textContent = body;
+      confirmOkBtn.textContent = okText;
+
+      confirmOkBtn.className = "btn";
+      if(okVariant === "success") confirmOkBtn.classList.add("btn-success");
+      else if(okVariant === "danger") confirmOkBtn.classList.add("btn-danger");
+      else confirmOkBtn.classList.add("btn-primary");
+
+      confirmCancelBtn.onclick = () => closeBalloon();
+      confirmOkBtn.onclick = () => { closeBalloon(); onOk && onOk(); };
+
+      closeBalloon();
+      backdrop.classList.add("show");
+      balloon.classList.add("show");
+
+      const rect = anchorEl.getBoundingClientRect();
+      const balloonHeight = balloon.offsetHeight;
+      const pad = 12;
+
+      const desiredLeft = (rect.left + rect.width/2) - (Math.min(window.innerWidth * 0.92, 420) / 2);
+      let left = Math.max(pad, Math.min(desiredLeft, window.innerWidth - pad - Math.min(window.innerWidth * 0.92, 420)));
+      const espacoAbaixo = window.innerHeight - rect.bottom;
+      const espacoAcima = rect.top;
+
+      let top;
+      if(espacoAbaixo < balloonHeight + 20 && espacoAcima > espacoAbaixo){
+        top = rect.top - balloonHeight - 10;
+      }else{
+        top = rect.bottom + 10;
+      }
+      top = Math.max(pad, Math.min(top, window.innerHeight - balloonHeight - pad));
+
+      balloon.style.left = left + "px";
+      balloon.style.top = top + "px";
+      balloon.style.setProperty("--arrow-x", "50%");
+
+      backdrop.onclick = closeBalloon;
+
+      const escHandler = (e) => {
+        if(e.key === "Escape"){
+          closeBalloon();
+          window.removeEventListener("keydown", escHandler);
+        }
+      };
+      window.addEventListener("keydown", escHandler);
+    }
+
+    // ===== lista =====
+    function getItensDoClienteNorm(nomeNorm){
+      return registros
+        .filter(r => matchesCliente(nomeNorm, r.nomeCliente))
+        .sort((a,b) => b.criadoEm - a.criadoEm);
+    }
+
     function renderListForCliente(nomeClienteBuscado){
       const conteudo = $("#conteudoLista");
       const metaHistorico = $("#metaHistorico");
@@ -698,11 +937,10 @@
 
       const nomeBuscadoSan = sanitizeNome(nomeClienteBuscado);
       const nomeNorm = normalizeForSearch(nomeBuscadoSan);
-      clienteSelecionado = nomeNorm; // guarda normalizado
 
-      const itens = registros
-        .filter(r => matchesCliente(nomeNorm, r.nomeCliente))
-        .sort((a,b) => b.criadoEm - a.criadoEm);
+      clienteSelecionado = nomeNorm;
+      clienteSelecionadoTexto = nomeBuscadoSan;
+      ultimoBuscaCampoTexto = $("#busca").value;
 
       if(!nomeNorm){
         $("#totalDivida").textContent = formatBRL(0);
@@ -719,6 +957,7 @@
         return;
       }
 
+      const itens = getItensDoClienteNorm(nomeNorm);
       const total = itens.reduce((acc, it) => acc + it.valor, 0);
       $("#totalDivida").textContent = formatBRL(total);
 
@@ -726,13 +965,13 @@
         qtdBadge.style.display = "none";
         $("#btnQuitar").disabled = true;
         metaHistorico.textContent = "Nenhum registro encontrado para este cliente.";
+
         conteudo.innerHTML = `
           <div class="empty">
             <b>Sem débitos.</b>
             <span>Se quiser, cadastre um novo fiado no painel ao lado.</span>
           </div>
         `;
-        // mostra o texto como digitou (sanitizado)
         setClienteAtivo(nomeBuscadoSan);
         return;
       }
@@ -743,13 +982,16 @@
 
       metaHistorico.textContent = "Itens do histórico (mais recentes primeiro).";
 
+      // Produto | Cliente | Valor | Data | Excluir  (com dia/mes)
       conteudo.innerHTML = `
         <table aria-label="Histórico de compras">
           <thead>
             <tr>
-              <th style="width:40%;">Produto</th>
-              <th>Cliente</th>
-              <th class="td-right" style="width:25%;">Valor</th>
+              <th style="width:34%;">Produto</th>
+              <th style="width:24%;">Cliente</th>
+              <th style="width:18%; text-align:right;">Valor</th>
+              <th style="width:14%;">Data</th>
+              <th style="width:10%;">Excluir</th>
             </tr>
           </thead>
           <tbody>
@@ -758,6 +1000,18 @@
                 <td>${escapeHtml(it.produto)}</td>
                 <td>${escapeHtml(it.nomeCliente)}</td>
                 <td class="td-right">${formatBRL(it.valor)}</td>
+                <td>${escapeHtml(formatDayMonthBR(it.criadoEm))}</td>
+                <td>
+                  <button
+                    class="btn-danger-small"
+                    type="button"
+                    data-id="${escapeHtml(it.id)}"
+                    title="Excluir este item"
+                    aria-label="Excluir item do histórico"
+                  >
+                    🗑️
+                  </button>
+                </td>
               </tr>
             `).join("")}
           </tbody>
@@ -767,86 +1021,7 @@
       setClienteAtivo(nomeBuscadoSan);
     }
 
-    // ---- Balão de confirmação ----
-    const backdrop = $("#balloonBackdrop");
-    const balloon = $("#confirmBalloon");
-    const confirmCancelBtn = $("#confirmCancelBtn");
-    const confirmOkBtn = $("#confirmOkBtn");
-
-    function closeBalloon(){
-        
-      balloon.classList.remove("show");
-      backdrop.classList.remove("show");
-    }
-
-    function openBalloon({ anchorEl, title, body, okText, okVariant, onOk }){
-      $("#confirmTitle").textContent = title;
-      $("#confirmBody").textContent = body;
-
-      confirmOkBtn.textContent = okText;
-
-      confirmOkBtn.className = "btn";
-      if(okVariant === "success") confirmOkBtn.classList.add("btn-success");
-      else if(okVariant === "danger") confirmOkBtn.classList.add("btn-danger");
-      else confirmOkBtn.classList.add("btn-primary");
-
-      // posiciona perto do botão (simples e seguro)
-      const rect = anchorEl.getBoundingClientRect();
-      const balloonWidth = Math.min(window.innerWidth * 0.92, 420);
-
-      const desiredLeft = (rect.left + rect.width/2) - balloonWidth/2;
-      const clampedLeft = Math.max(12, Math.min(desiredLeft, window.innerWidth - balloonWidth - 12));
-
-      balloon.style.left = clampedLeft + "px";
-     const balloonHeight = balloon.offsetHeight;
-const espacoAbaixo = window.innerHeight - rect.bottom;
-const espacoAcima = rect.top;
-
-let top;
-
-if (
-  espacoAbaixo < balloonHeight + 20 &&
-  espacoAcima > espacoAbaixo
-) {
-  // Mostra o balão acima do botão
-  top = rect.top - balloonHeight - 10;
-} else {
-  // Mostra abaixo do botão
-  top = rect.bottom + 10;
-}
-
-// Impede que o balão saia dos limites da tela
-top = Math.max(
-  12,
-  Math.min(top, window.innerHeight - balloonHeight - 12)
-);
-
-balloon.style.top = top + "px";
-
-      balloon.style.setProperty("--arrow-x", "50%");
-
-      backdrop.onclick = () => closeBalloon();
-      confirmCancelBtn.onclick = () => closeBalloon();
-
-      confirmOkBtn.onclick = () => {
-        closeBalloon();
-        onOk && onOk();
-      };
-
-      closeBalloon();
-      backdrop.classList.add("show");
-      balloon.classList.add("show");
-
-      const escHandler = (e) => {
-        if(e.key === "Escape"){
-          closeBalloon();
-          window.removeEventListener("keydown", escHandler);
-        }
-      };
-      window.addEventListener("keydown", escHandler);
-    }
-
-    // ---- Events ----
+    // ===== events: adicionar =====
     $("#formAdd").addEventListener("submit", (e) => {
       e.preventDefault();
 
@@ -868,12 +1043,13 @@ balloon.style.top = top + "px";
 
       registros.push(novo);
       saveToStorage();
-
       toast("Registro adicionado com sucesso ✅");
 
-      const buscaAtual = $("#busca").value;
-      if(sanitizeNome(buscaAtual).length > 0 && matchesCliente(buscaAtual, nomeCliente)){
-        renderListForCliente(buscaAtual);
+      // se houver busca e bater com o cliente novo, atualiza tela
+      const buscaAtualRaw = $("#busca").value;
+      const buscaAtualSan = sanitizeNome(buscaAtualRaw);
+      if(buscaAtualSan.length > 0 && matchesCliente(buscaAtualSan, nomeCliente)){
+        renderListForCliente(buscaAtualRaw);
       }
 
       $("#produto").value = "";
@@ -881,6 +1057,7 @@ balloon.style.top = top + "px";
       $("#produto").focus();
     });
 
+    // ===== buscar =====
     $("#btnBuscar").addEventListener("click", () => {
       renderListForCliente($("#busca").value);
     });
@@ -892,6 +1069,7 @@ balloon.style.top = top + "px";
       }
     });
 
+    // ===== quitar conta (remove todos itens do cliente atual) =====
     $("#btnQuitar").addEventListener("click", () => {
       if(!clienteSelecionado) return;
 
@@ -917,13 +1095,15 @@ balloon.style.top = top + "px";
         onOk: () => {
           registros = registros.filter(r => !matchesCliente(nomeNorm, r.nomeCliente));
           saveToStorage();
-          // re-render usa o que está no campo busca
-          renderListForCliente($("#busca").value);
+
+          // re-render pelo texto do cliente ativo
+          renderListForCliente(clienteSelecionadoTexto);
           toast("Conta quitada ✅");
         }
       });
     });
 
+    // ===== apagar tudo =====
     $("#btnLimparTodos").addEventListener("click", () => {
       const totalRegistros = registros.length;
 
@@ -950,37 +1130,107 @@ balloon.style.top = top + "px";
       });
     });
 
-    $("#btnExport").addEventListener("click", async () => {
-      const payload = {
-        versao: 1,
-        exportadoEm: new Date().toISOString(),
-        registros
-      };
+    // ===== excluir item individual =====
+    $("#conteudoLista").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-id]");
+      if(!btn) return;
 
-      const json = JSON.stringify(payload, null, 2);
+      const id = btn.getAttribute("data-id");
+      const item = registros.find(r => r.id === id);
+      if(!item) return;
 
-      try{
-        const blob = new Blob([json], { type: "application/json;charset=utf-8" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "pendura-ai-export.json";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
-        toast("Export gerado ✅");
-      }catch{
-        window.prompt("Copie o JSON exportado:", json);
+      openBalloon({
+        anchorEl: btn,
+        title: "Excluir item",
+        body: `Remover:\n\n${item.produto}\nCliente: ${item.nomeCliente}\nValor: ${formatBRL(item.valor)}\nData: ${formatDayMonthBR(item.criadoEm)}\n\nIsso não pode ser desfeito.`,
+        okText: "Excluir",
+        okVariant: "danger",
+        onOk: () => {
+          registros = registros.filter(r => r.id !== id);
+          saveToStorage();
+
+          // re-render pelo cliente ativo
+          if(clienteSelecionadoTexto){
+            renderListForCliente(clienteSelecionadoTexto);
+          }else{
+            renderListForCliente($("#busca").value);
+          }
+          toast("Item excluído ✅");
+        }
+      });
+    });
+
+    // ===== Exportar PDF: se houver nome na busca, exporta somente ele; senão exporta tudo =====
+    function openPdfPrint({ mode }){
+      const now = new Date();
+
+      let itens = [];
+      let titulo = "Controle mensal (Todos os registros)";
+      let clienteLinha = "";
+
+      if(mode === "cliente"){
+        // exporta somente o cliente que está na busca
+        const buscaTexto = sanitizeNome($("#busca").value);
+        const nomeNorm = normalizeForSearch(buscaTexto);
+
+        if(!nomeNorm){
+          // fallback: sem nome efetivo, exporta tudo
+          itens = registros.slice().sort((a,b)=>b.criadoEm-a.criadoEm);
+          titulo = "Controle mensal (Todos os registros)";
+        }else{
+          itens = registros
+            .filter(r => matchesCliente(nomeNorm, r.nomeCliente))
+            .sort((a,b)=>b.criadoEm-a.criadoEm);
+
+          titulo = "Controle mensal (Cliente)";
+          clienteLinha = `Cliente: ${buscaTexto}`;
+        }
+      }else{
+        itens = registros.slice().sort((a,b)=>b.criadoEm-a.criadoEm);
+      }
+
+      const total = itens.reduce((acc,it)=>acc+it.valor,0);
+
+      $("#printSubtitle").textContent = titulo;
+      $("#printDate").textContent = `Gerado em: ${now.toLocaleString("pt-BR")}`;
+      $("#printClientLine").textContent = clienteLinha || "";
+      $("#printTotalLine").textContent = `Total: ${formatBRL(total)}`;
+
+      $("#printTbody").innerHTML = itens.map(it => `
+        <tr>
+          <td>${escapeHtml(formatDayMonthBR(it.criadoEm))}</td>
+          <td>${escapeHtml(it.produto)}</td>
+          <td>${escapeHtml(it.nomeCliente)}</td>
+          <td style="text-align:right;">${formatBRL(it.valor)}</td>
+        </tr>
+      `).join("");
+
+      window.print();
+    }
+
+    $("#btnExport").addEventListener("click", () => {
+      const buscaTexto = sanitizeNome($("#busca").value);
+      if(buscaTexto.length > 0){
+        openPdfPrint({ mode: "cliente" });
+      }else{
+        openPdfPrint({ mode: "all" });
       }
     });
 
-    // ---- Init ----
+    // ===== Init =====
     function init(){
       registros = loadFromStorage();
       renderListForCliente("");
     }
-    init();
+
+    (function boot(){
+      if(isLoggedIn()){
+        setLoggedIn(true);
+        init();
+      }else{
+        setLoggedIn(false);
+      }
+    })();
   </script>
 </body>
 </html>
